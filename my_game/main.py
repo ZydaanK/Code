@@ -1,11 +1,11 @@
-# File created by: Zydaan Khan
+# File created by: Chris Cozort
 # Agenda:
 # gIT GITHUB    
 # Build file and folder structures
 # Create libraries
 # testing github changes
 # I changed something - I changed something else tooooo!
-#123
+
 # This file was created by: Chris Cozort
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
 # Sources: 
@@ -41,7 +41,17 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
+        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
+        # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
+        self.all_sprites.add(self.plat1)
+
+        self.platforms.add(self.plat1)
+        
         self.all_sprites.add(self.player)
+        for plat in PLATFORM_LIST:
+            p = Platform(*plat)
+            self.all_sprites.add(p)
+            self.platforms.add(p)
         for i in range(0,10):
             m = Mob(20,20,(0,255,0))
             self.all_sprites.add(m)
@@ -64,13 +74,24 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
-    
     def update(self):
         self.all_sprites.update()
+        if self.player.vel.y > 0:
+            hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+            if hits:
+                if hits[0].variant == "disappearing":
+                    hits[0].kill()
+                elif hits[0].variant == "bouncey":
+                    self.player.pos.y = hits[0].rect.top
+                    self.player.vel.y = -PLAYER_JUMP
+                else:
+                    self.player.pos.y = hits[0].rect.top
+                    self.player.vel.y = 0
+
     def draw(self):
         self.screen.fill(BLUE)
         self.all_sprites.draw(self.screen)
-        # is this a method or a function? Method
+        # is this a method or a function?
         pg.display.flip()
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
@@ -83,8 +104,10 @@ class Game:
         x,y = pg.mouse.get_pos()
         return (x,y)
 
+# instantiate the game class...
 g = Game()
 
+# kick off the game loop
 while g.running:
     g.new()
 
