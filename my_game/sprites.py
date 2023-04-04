@@ -22,6 +22,7 @@ class Player(Sprite):
         self.acc = vec(0,0)
         self.cofric = 0.1
         self.canjump = False
+        self.standing = False
     def input(self):
         keystate = pg.key.get_pressed()
         # if keystate[pg.K_w]:
