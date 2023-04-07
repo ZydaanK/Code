@@ -1,4 +1,4 @@
-# File created by: Zydaan Khan
+# File created by: Chris Cozort
 # Agenda:
 # gIT GITHUB    
 # Build file and folder structures
