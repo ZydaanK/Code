@@ -13,6 +13,7 @@
 # import libs
 import pygame as pg
 import os
+import time
 # import settings 
 from settings import *
 from sprites import *
@@ -100,6 +101,8 @@ class Game:
             self.draw_text("I hit a plat!", 24, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
         pg.display.flip()
+        print(pg.time.get_ticks())
+
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
